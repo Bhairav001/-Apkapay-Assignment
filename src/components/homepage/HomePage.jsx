@@ -1,8 +1,12 @@
 import React from 'react'
+import SearchBus from '../searchBus/SearchBus'
 
 const HomePage = () => {
   return (
-    <div>HomePage</div>
+    <div>
+        <SearchBus/>
+        <hr />
+    </div>
   )
 }
 
