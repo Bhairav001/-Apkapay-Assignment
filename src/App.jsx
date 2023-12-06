@@ -1,6 +1,6 @@
 
 import { Route, Routes } from 'react-router-dom'
-import './App.css'
+// import './App.css'
 import HomePage from './components/homepage/HomePage'
 import ListBus from './components/listBus/ListBus'
 import SearchLayout from './components/searchLayout/SearchLayout'

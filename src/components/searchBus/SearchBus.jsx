@@ -1,65 +1,75 @@
-// SearchBus.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
+import homeImage from "../../assets/hero.png";
+import axios from "axios";
 
-const SearchBus = ({ onSearch }) => {
-  const [sourceId, setSourceId] = useState('');
-  const [destinationId, setDestinationId] = useState('');
-  const [doj, setDoj] = useState('');
-
-  const handleSearch = async () => {
-    try {
-      // Implement API call using sourceId, destinationId, and doj
-      // const response = await axios.post('YOUR_API_ENDPOINT', { sourceId, destinationId, doj });
-      // onSearch(response.data.services);
-
-      // Mock data for testing
-      const mockResponse = {
-        services: [
-          {
-            operatorId: '115551',
-            Service_key: '1769344333',
-            Service_Name: 'Hyderabad To Amalapuram (VIA)Korukallu,Kalidindi,Juvvalapale',
-            Service_Number: '884945339',
-            Traveler_Agent_Name: 'RAINBOW TOURS AND TRAVELS',
-            Bus_Type_Name: 'NON-AC Seater/Sleeper (2 + 1)',
-            Start_time: '10:30 PM',
-            Arr_Time: '04:15 AM',
-            TravelTime: '05:45:00',
-            Source_ID: 3,
-            Destination_ID: 5,
-            Fare: 1666,
-            available_seats: '31',
-            jdate: '2023-12-30',
-            BUS_START_DATE: '2023-12-30',
-            layout_id: 0,
-          },
-        ],
-      };
-      onSearch(mockResponse.services);
-    } catch (error) {
-      console.error('Error searching buses:', error);
-    }
-  };
-
+const searchMovie=async()=>{
+    const response = axios.post("https://rightpayonline.com/bus/getAvailableServices");
+    return response.json()
+    
+}
+const SearchBus = () => {
+const [data,setData] = useState([])
+useEffect(()=>{
+   searchMovie().then((res)=>res.json())
+   .then((res)=>console.log("res",res))
+   .catch((err)=>console.log(err))
+},[])
   return (
-    <div className="container mx-auto p-4 bg-gray-100">
-      <h2 className="text-2xl font-bold mb-4">Search Bus</h2>
-      <div className="flex gap-4 mb-4">
-        <label className="flex-1">
-          Source ID:
-          <input type="text" value={sourceId} onChange={(e) => setSourceId(e.target.value)} className="w-full p-2 border" />
-        </label>
-        <label className="flex-1">
-          Destination ID:
-          <input type="text" value={destinationId} onChange={(e) => setDestinationId(e.target.value)} className="w-full p-2 border" />
-        </label>
-        <label className="flex-1">
-          Date of Journey:
-          <input type="date" value={doj} onChange={(e) => setDoj(e.target.value)} className="w-full p-2 border" />
-        </label>
-        <button onClick={handleSearch} className="bg-blue-500 text-white px-4 py-2">Search Buses</button>
+    <section id="searchBus" className="relative mt-8 w-full h-screen flex items-center">
+      <div className="background absolute inset-0">
+        <img src={homeImage} alt="" className="w-full h-full object-cover" />
       </div>
-    </div>
+      <div className="content text-white text-center z-10">
+        <div className="title mb-4">
+          <h1 className="text-4xl font-extrabold tracking-wide leading-tight">
+            TRAVEL TO EXPLORE
+          </h1>
+          <p className="text-lg mt-4">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
+            natus, enim ipsam magnam odit deserunt itaque? Minima earum velit
+            tenetur!
+          </p>
+        </div>
+        <div className="search bg-white bg-opacity-80 p-6 rounded-md mx-auto max-w-2xl">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="flex flex-col items-center">
+              <label htmlFor="location" className="text-black text-lg mb-2">
+                Where you want to go
+              </label>
+              <input
+                type="text"
+                id="location"
+                placeholder="Search Your location"
+                className="bg-gray-100 border border-gray-300 rounded-md px-4 py-2 text-black text-center w-full focus:outline-none focus:ring focus:border-blue-500"
+              />
+            </div>
+            <div className="flex flex-col items-center">
+              <label htmlFor="checkIn" className="text-black text-lg mb-2">
+                Check-in
+              </label>
+              <input
+                type="date"
+                id="checkIn"
+                className="bg-gray-100 border border-gray-300 rounded-md px-4 py-2 text-black text-center w-full focus:outline-none focus:ring focus:border-blue-500"
+              />
+            </div>
+            <div className="flex flex-col items-center">
+              <label htmlFor="checkOut" className="text-black text-lg mb-2">
+                Check-out
+              </label>
+              <input
+                type="date"
+                id="checkOut"
+                className="bg-gray-100 border border-gray-300 rounded-md px-4 py-2 text-black text-center w-full focus:outline-none focus:ring focus:border-blue-500"
+              />
+            </div>
+          </div>
+          <button className="mt-4 px-6 py-3 rounded-md bg-blue-500 text-white text-lg font-semibold uppercase hover:bg-blue-600 transition duration-300 ease-in-out focus:outline-none focus:ring focus:border-blue-500">
+            Explore Now
+          </button>
+        </div>
+      </div>
+    </section>
   );
 };
 
