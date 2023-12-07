@@ -3,17 +3,38 @@ import homeImage from "../../assets/hero.png";
 import axios from "axios";
 
 const searchMovie=async()=>{
-    const response = axios.post("https://rightpayonline.com/bus/getAvailableServices");
-    return response.json()
+    const response = await axios.post("https://rightpayonline.com/bus/getAvailableServices",
+       {
+        sourceId: "3",
+        destinationId: "5",
+        doj: "2023-12-30"
+        }
+    );
+    return response.data.services
     
 }
 const SearchBus = () => {
-const [data,setData] = useState([])
+const [data,setData] = useState([]);
+const [searchInput, setSearchInput] = useState("");
+  const [searchInputDestination, setSearchInputDestionation] = useState("");
+  const [searchInputDate, setSearchInputDate] = useState("");
+  const [buses, setBuses] = useState([]);
 useEffect(()=>{
-   searchMovie().then((res)=>res.json())
-   .then((res)=>console.log("res",res))
-   .catch((err)=>console.log(err))
-},[])
+   searchMovie()
+   .then((res) => setData(res))
+   .catch((error) => console.error("Error in useEffect:", error));
+},[]);
+
+const searchBuses = () => {
+  if (
+    searchInputDestination === "Hyderabad" &&
+    searchInput === "Amalapuram"
+  ) {
+     searchMovie().then((res) => setData(res));
+  }
+ 
+};
+console.log("data",data);
   return (
     <section id="searchBus" className="relative mt-8 w-full h-screen flex items-center">
       <div className="background absolute inset-0">
@@ -34,37 +55,42 @@ useEffect(()=>{
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="flex flex-col items-center">
               <label htmlFor="location" className="text-black text-lg mb-2">
-                Where you want to go
+                Frome
               </label>
               <input
-                type="text"
-                id="location"
-                placeholder="Search Your location"
+                   type="text"
+                   id="search-input"
+                   placeholder="Enter Source "
+                   onChange={(e) => setSearchInputDestionation(e.target.value)}
                 className="bg-gray-100 border border-gray-300 rounded-md px-4 py-2 text-black text-center w-full focus:outline-none focus:ring focus:border-blue-500"
               />
             </div>
             <div className="flex flex-col items-center">
               <label htmlFor="checkIn" className="text-black text-lg mb-2">
-                Check-in
+                to
               </label>
               <input
-                type="date"
-                id="checkIn"
+                type="text"
+                id="search-input"
+                placeholder="Enter destination"
+                onChange={(e) => setSearchInput(e.target.value)}
                 className="bg-gray-100 border border-gray-300 rounded-md px-4 py-2 text-black text-center w-full focus:outline-none focus:ring focus:border-blue-500"
               />
             </div>
             <div className="flex flex-col items-center">
               <label htmlFor="checkOut" className="text-black text-lg mb-2">
-                Check-out
+                date
               </label>
               <input
-                type="date"
+               type="date"
+               placeholder="Enter Date "
+               onChange={(e) => setSearchInputDate(e.target.value)}
                 id="checkOut"
                 className="bg-gray-100 border border-gray-300 rounded-md px-4 py-2 text-black text-center w-full focus:outline-none focus:ring focus:border-blue-500"
               />
             </div>
           </div>
-          <button className="mt-4 px-6 py-3 rounded-md bg-blue-500 text-white text-lg font-semibold uppercase hover:bg-blue-600 transition duration-300 ease-in-out focus:outline-none focus:ring focus:border-blue-500">
+          <button onClick={searchBuses} className="mt-4 px-6 py-3 rounded-md bg-blue-500 text-white text-lg font-semibold uppercase hover:bg-blue-600 transition duration-300 ease-in-out focus:outline-none focus:ring focus:border-blue-500">
             Explore Now
           </button>
         </div>
