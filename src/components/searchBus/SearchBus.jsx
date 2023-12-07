@@ -1,8 +1,21 @@
 import React, { useEffect, useState } from "react";
 import homeImage from "../../assets/hero.png";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import ListBus from "../listBus/ListBus";
+// import useFetch from "../../hooks/useFetch";
 
-const searchMovie=async()=>{
+
+const SearchBus = () => {
+const [data,setData] = useState([]);
+const [searchInput, setSearchInput] = useState("");
+  const [searchInputDestination, setSearchInputDestionation] = useState("");
+  const [searchInputDate, setSearchInputDate] = useState("");
+  const [buses, setBuses] = useState([]);
+  const [query, setQuery] = useState("");
+
+  const navigate = useNavigate()
+  const searchMovie=async()=>{
     const response = await axios.post("https://rightpayonline.com/bus/getAvailableServices",
        {
         sourceId: "3",
@@ -13,29 +26,20 @@ const searchMovie=async()=>{
     return response.data.services
     
 }
-const SearchBus = () => {
-const [data,setData] = useState([]);
-const [searchInput, setSearchInput] = useState("");
-  const [searchInputDestination, setSearchInputDestionation] = useState("");
-  const [searchInputDate, setSearchInputDate] = useState("");
-  const [buses, setBuses] = useState([]);
 useEffect(()=>{
    searchMovie()
    .then((res) => setData(res))
    .catch((error) => console.error("Error in useEffect:", error));
 },[]);
 
-const searchBuses = () => {
-  if (
-    searchInputDestination === "Hyderabad" &&
-    searchInput === "Amalapuram"
-  ) {
-     searchMovie().then((res) => setData(res));
+const searchQueryHandler = (event) => {
+  if (event.key == "Enter" && query.length > 0) {
+    navigate(`/search/${query}`)
   }
- 
-};
+}
 console.log("data",data);
   return (
+    <>
     <section id="searchBus" className="relative mt-8 w-full h-screen flex items-center">
       <div className="background absolute inset-0">
         <img src={homeImage} alt="" className="w-full h-full object-cover" />
@@ -59,9 +63,9 @@ console.log("data",data);
               </label>
               <input
                    type="text"
-                   id="search-input"
                    placeholder="Enter Source "
                    onChange={(e) => setSearchInputDestionation(e.target.value)}
+                   onKeyUp={searchQueryHandler}
                 className="bg-gray-100 border border-gray-300 rounded-md px-4 py-2 text-black text-center w-full focus:outline-none focus:ring focus:border-blue-500"
               />
             </div>
@@ -71,31 +75,38 @@ console.log("data",data);
               </label>
               <input
                 type="text"
-                id="search-input"
                 placeholder="Enter destination"
                 onChange={(e) => setSearchInput(e.target.value)}
+                onKeyUp={searchQueryHandler}
                 className="bg-gray-100 border border-gray-300 rounded-md px-4 py-2 text-black text-center w-full focus:outline-none focus:ring focus:border-blue-500"
               />
             </div>
             <div className="flex flex-col items-center">
-              <label htmlFor="checkOut" className="text-black text-lg mb-2">
+              <label htmlFor="checkOut" className="text-black text-lg mb-2"
+              >
                 date
               </label>
               <input
                type="date"
                placeholder="Enter Date "
                onChange={(e) => setSearchInputDate(e.target.value)}
-                id="checkOut"
+               onKeyUp={searchQueryHandler}
                 className="bg-gray-100 border border-gray-300 rounded-md px-4 py-2 text-black text-center w-full focus:outline-none focus:ring focus:border-blue-500"
               />
             </div>
           </div>
-          <button onClick={searchBuses} className="mt-4 px-6 py-3 rounded-md bg-blue-500 text-white text-lg font-semibold uppercase hover:bg-blue-600 transition duration-300 ease-in-out focus:outline-none focus:ring focus:border-blue-500">
+          <button onClick={()=>navigate(`/search/${query}`)} className="mt-4 px-6 py-3 rounded-md bg-blue-500 text-white text-lg font-semibold uppercase hover:bg-blue-600 transition duration-300 ease-in-out focus:outline-none focus:ring focus:border-blue-500">
             Explore Now
           </button>
         </div>
       </div>
     </section>
+    {/* {data.map((el)=>(
+        <div key={el.id}>
+          <ListBus Service_Name={el.Service_Name}/>
+        </div>
+      ))} */}
+    </>
   );
 };
 
