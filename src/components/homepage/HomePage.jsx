@@ -7,8 +7,8 @@ const HomePage = () => {
   return (
     <div>
         <SearchBus/>
-        <Services/>
-        <Recommend/>
+        {/* <Services/>
+        <Recommend/> */}
     </div>
   )
 }

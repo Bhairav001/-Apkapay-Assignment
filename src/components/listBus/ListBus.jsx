@@ -1,9 +1,12 @@
-import React from 'react'
-
-const ListBus = (props) => {
-  console.log(props.Service_Name)
+import React, { useContext } from 'react'
+import { createData } from '../searchBus/SearchBus'
+const ListBus = () => {
+  const myData = useContext(createData)
+  console.log("myData",myData)
   return (
-    <div>ListBus</div>
+    <div>
+   
+    </div>
   )
 }
 
