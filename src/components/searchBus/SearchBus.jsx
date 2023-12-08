@@ -12,7 +12,8 @@ const SearchBus = () => {
   const navigate = useNavigate("");
   const [singleData, setSingleData] = useState([])
   const [loading, setLoading] = useState(false);
-  const [showAlert, setShowAlert] = useState(false)
+  const [showAlert, setShowAlert] = useState(false);
+  
   const searchMovie = async () => {
     const response = await axios.post("https://rightpayonline.com/bus/getAvailableServices",
       {
@@ -27,8 +28,10 @@ const SearchBus = () => {
 
   const searchBuses = () => {
       searchMovie().then((res) => setData(res));
-      navigate("/listbus")
       setShowAlert(true)
+      setTimeout(()=>{
+        navigate("/listbus") 
+      },1000)
   };
   console.log("data", data);
 
@@ -39,7 +42,7 @@ const SearchBus = () => {
     
   // }
 
-  console.log("nowdata", singleData)
+  // console.log("nowdata", singleData)
   return (
     <>
       <section className="relative mt-0 w-full h-screen flex items-center">

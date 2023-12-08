@@ -6,6 +6,7 @@ import ListBus from './components/listBus/ListBus'
 import SearchLayout from './components/searchLayout/SearchLayout'
 import Navbar from './pages/navbar/Navbar'
 import Footer from './pages/footer/Footer'
+import SingleBus from './components/listBus/SingleBus'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
          <Route path='/' element={<HomePage/>}/>
           <Route path='/listbus' element={<ListBus/>}/>
           <Route path='/busLayout' element={<SearchLayout/>}/>
+          <Route path='/singleBus' element={<SingleBus/>}/>
      </Routes>
        <Footer/>   
     </>
