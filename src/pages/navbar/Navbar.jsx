@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import logo from "../../assets/logo.png";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { VscChromeClose } from "react-icons/vsc";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [navbarState, setNavbarState] = useState(false);
-
+  const navigate = useNavigate()
   return (
     <nav className="bg-gray-800 p-4">
       <div className="container mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-2 cursor-pointer text-white text-xl font-extrabold uppercase">
+        <div className="flex items-center gap-2 cursor-pointer text-white text-xl font-extrabold uppercase" onClick={()=>navigate("/")}>
           <img src="https://e7.pngegg.com/pngimages/968/670/png-clipart-school-bus-computer-icons-public-transport-bus-service-red-bus-logo-transport.png" alt="" className="w-8 h-8" />
           Happy Traveling
         </div>

@@ -11,7 +11,8 @@ const SearchBus = () => {
   const [searchInputDate, setSearchInputDate] = useState("");
   const navigate = useNavigate("");
   const [singleData, setSingleData] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [showAlert, setShowAlert] = useState(false)
   const searchMovie = async () => {
     const response = await axios.post("https://rightpayonline.com/bus/getAvailableServices",
       {
@@ -26,15 +27,17 @@ const SearchBus = () => {
 
   const searchBuses = () => {
       searchMovie().then((res) => setData(res));
+      navigate("/listbus")
+      setShowAlert(true)
   };
   console.log("data", data);
 
-  function handleNavigate(singleBus){
-    navigate("/listbus")
-    console.log("SingleBus",singleBus)
-    setSingleData(singleBus)
+  // function handleNavigate(singleBus){
+  //   navigate("/listbus")
+  //   console.log("SingleBus",singleBus)
+  //   setSingleData(singleBus)
     
-  }
+  // }
 
   console.log("nowdata", singleData)
   return (
@@ -49,6 +52,9 @@ const SearchBus = () => {
               TRAVEL TO EXPLORE
             </h1>
           </div>
+          {showAlert && (
+            <div className="bg-green-500 text-white p-4 mb-4 rounded">Book Your Seat for Free...!</div>
+          )}
           <div className="search bg-white bg-opacity-50 p-6 rounded-md mx-auto max-w-2xl">
             <div className="grid grid-cols-1  md:grid-cols-3 gap-4">
               <div className="flex flex-col items-center">
@@ -92,7 +98,7 @@ const SearchBus = () => {
           </div>
         </div>
       </section>
-      <div id="results-container" className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* <div id="results-container" className="grid grid-cols-1 md:grid-cols-3 gap-4">
   {data.length === 0 ? (
     <p className="col-span-3 text-center text-gray-500 border border-gray-300 p-4 rounded-md">No buses found for the given destination.</p>
   ) : (
@@ -109,7 +115,7 @@ const SearchBus = () => {
 </div>
      <createData.Provider value={singleData}>
         <ListBus/>
-     </createData.Provider>
+     </createData.Provider> */}
 
      </>
   );
